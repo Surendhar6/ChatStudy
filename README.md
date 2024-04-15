@@ -108,8 +108,10 @@ while True:
 
 ## Output :
 ### Client :
+![client output](https://github.com/Surendhar6/ChatStudy/assets/118352907/4d81e4a1-8c1e-4007-b4c1-89f531c1e3e9)
 
 ### Server :
+![server output](https://github.com/Surendhar6/ChatStudy/assets/118352907/b380843e-259c-4aca-8a86-7f11e47b44db)
 
 ## Result:
 Thus the study on Client Server Chat Applications has been performed
