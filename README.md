@@ -1,5 +1,8 @@
 # Ex. No: 1b 			Study of Client Server Chat Applications
 
+### Name : Surendhar A
+### Reg. No. : 212222110049
+
 ## Aim: 
 To perform a study on Client Server Chat Applications
 
@@ -77,41 +80,58 @@ Client-server chat applications are foundational to real-time communication over
 ### Client :
 ```
 import socket
-s=socket.socket()
-s.bind(('localhost',8000))
-s.listen()
-c,addr=s.accept()
-size=int(input("Enter number of frames:"))
-l=list(range(size))
-s=int(input("Enter Window Size:"))
-st=0
-i=0
-while True:
-    while(i<len(l)):
-        st+=s
-        c.send(str(l[i:st]).encode())
-        ack=c.recv(1024).decode()
-        if ack:
-            print(ack)
-            i+=s
+def client_program():
+    host = socket.gethostname()  # as both code is running on same pc
+    port = 5000  # socket server port number
+    client_socket = socket.socket()  # instantiate
+    client_socket.connect((host, port))  # connect to the server
+    message = input(" -> ")  # take input
+    while message.lower().strip() != 'bye':
+        client_socket.send(message.encode())  # send message
+        data = client_socket.recv(1024).decode()  # receive response
+        print('Received from server: ' + data)  # show in terminal
+        message = input(" -> ")  # again take input
+    client_socket.close()  # close the connection
+if __name__ == '__main__':
+    client_program()
 ```
 
 ### Server :
 ```
 import socket
-s=socket.socket()
-s.connect(('localhost',8000))
-while True:
-    print(s.recv(1024).decode())
-    s.send("acknowledgemnt recevied".encode())
+def server_program():
+    # get the hostname
+    host = socket.gethostname()
+    port = 5000  # initiate port no above 1024
+    server_socket = socket.socket()  # get instance
+    # look closely. The bind() function takes tuple as argument
+    server_socket.bind((host, port))  # bind host address and port together
+    # configure how many client the server can listen simultaneously
+    server_socket.listen(2)
+    conn, address = server_socket.accept()  # accept new connection
+    print("Connection from: " + str(address))
+    while True:
+        # receive data stream. it won't accept data packet greater than 1024 bytes
+        data = conn.recv(1024).decode()
+        if not data:
+            # if data is not received break
+            break
+        print("from connected user: " + str(data))
+        data = input(' -> ')
+        conn.send(data.encode())  # send data to the client
+    conn.close()  # close the connection
+if __name__ == '__main__':
+    server_program()
 ```
 
 ## Output :
 ### Client :
-![client output](https://github.com/Surendhar6/ChatStudy/assets/118352907/4d81e4a1-8c1e-4007-b4c1-89f531c1e3e9)
+
+![image](https://github.com/Surendhar6/ChatStudy/assets/118352907/227bf157-2a52-4817-af01-25bdbeb1dac3)
 
 ### Server :
-![server output](https://github.com/Surendhar6/ChatStudy/assets/118352907/b380843e-259c-4aca-8a86-7f11e47b44db)
+
+![image](https://github.com/Surendhar6/ChatStudy/assets/118352907/7421fbfc-890e-410b-8f4a-e99f7f6294d3)
 
 ## Result:
 Thus the study on Client Server Chat Applications has been performed
